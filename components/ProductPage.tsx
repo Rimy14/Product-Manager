@@ -53,7 +53,7 @@ export default function ProductPage() {
               <Package size={16} color="#fff" />
             </div>
             <div style={{ display: "flex", alignItems: "baseline", gap: "3px" }}>
-              <span style={{ fontSize: "15px", fontWeight: 700, color: "#1C1917", letterSpacing: "-0.02em" }}>Inventory</span>
+              <span style={{ fontSize: "15px", fontWeight: 700, color: "#1C1917", letterSpacing: "-0.02em" }}>Product</span>
               <span style={{ fontSize: "15px", fontWeight: 400, color: "#A8A29E", letterSpacing: "-0.01em" }}>Manager</span>
             </div>
           </div>
