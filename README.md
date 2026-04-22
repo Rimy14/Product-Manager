@@ -21,7 +21,7 @@ Run the project locally following the setup instructions below.
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone <https://github.com/Rimy14/Product-Manager.git>
 cd product-manager
 
 # Install dependencies
