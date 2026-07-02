@@ -54,7 +54,8 @@ export default function ProductCard({ product }: { product: Product }) {
         {/* ── Image ── */}
         <div style={{
           position: "relative",
-          height: "180px",
+          aspectRatio: "16 / 10",
+          width: "100%",
           flexShrink: 0,
           background: "#F5F4F2",
           overflow: "hidden",
