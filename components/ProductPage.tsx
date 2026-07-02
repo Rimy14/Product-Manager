@@ -47,7 +47,7 @@ export default function ProductPage() {
           boxShadow: "0 1px 12px rgba(0,0,0,0.06)",
         }}
       >
-        <div className="w-full px-4 md:px-8 h-[60px] flex items-center justify-between">
+        <div className="responsive-container h-[60px] flex items-center justify-between">
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <div style={{ width: "32px", height: "32px", borderRadius: "9px", background: "linear-gradient(135deg, #E85D04, #F97316)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(232,93,4,0.35)" }}>
               <Package size={16} color="#fff" />
@@ -69,7 +69,7 @@ export default function ProductPage() {
         </div>
       </header>
 
-      <main className="w-full px-4 md:px-8 pt-6 md:pt-10 pb-16 box-border">
+      <main className="responsive-container pt-6 md:pt-10 pb-16 box-border">
 
         {/* ── Page heading ── */}
         <div style={{ marginBottom: "32px" }}>
@@ -82,7 +82,7 @@ export default function ProductPage() {
         </div>
 
         {/* ── Stats grid ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="stats-grid">
           {stats.map((s) => {
             const Icon = s.icon;
             return (
@@ -149,9 +149,9 @@ export default function ProductPage() {
           </div>
 
           {/* Row 2: category filters + view toggle */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="toolbar-row">
             {/* Category pills — scrollable */}
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", overflowX: "auto", flex: 1, scrollbarWidth: "none" }}>
+            <div className="categories-scroll" style={{ flex: 1 }}>
               {categories.map((cat) => (
                 <button
                   key={cat}

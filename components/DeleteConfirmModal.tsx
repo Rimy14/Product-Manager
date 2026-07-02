@@ -30,7 +30,7 @@ export default function DeleteConfirmModal({
           style={{ background: "rgba(0,0,0,0.35)", backdropFilter: "blur(4px)" }}
         />
         <Dialog.Content
-          className="dialog-content fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[calc(100%-32px)] sm:w-full"
+          className="dialog-content dialog-responsive fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 sm:w-full"
           style={{
             maxWidth: "420px",
             background: "#FFFFFF",
