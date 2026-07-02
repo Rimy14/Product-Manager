@@ -179,11 +179,12 @@ export default function ProductPage() {
 
             {/* View toggle */}
             <div
-              style={{ display: "flex", alignItems: "center", borderRadius: "12px", border: "1px solid var(--border)", flexShrink: 0, padding: "4px", background: "var(--surface)" }}
+              className="self-center sm:self-auto"
+              style={{ display: "flex", alignItems: "center", gap: "4px", borderRadius: "9999px", border: "1px solid var(--border)", flexShrink: 0, padding: "4px", background: "var(--surface)" }}
             >
               <button
                 onClick={() => setViewMode("grid")}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all"
                 style={
                   viewMode === "grid"
                     ? { background: "var(--bg)", color: "var(--text-1)", boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }
@@ -195,7 +196,7 @@ export default function ProductPage() {
               </button>
               <button
                 onClick={() => setViewMode("table")}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all"
                 style={
                   viewMode === "table"
                     ? { background: "var(--bg)", color: "var(--text-1)", boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }

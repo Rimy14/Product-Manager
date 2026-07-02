@@ -103,11 +103,17 @@ select {
 /* Toolbar row */
 .toolbar-row {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+  gap: 16px;
   width: 100%;
+}
+@media (min-width: 640px) {
+  .toolbar-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
 }
 
 /* Categories scrollable container */
