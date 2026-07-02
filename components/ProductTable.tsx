@@ -51,9 +51,9 @@ export default function ProductTable() {
         borderRadius: "14px",
         border: "1px solid var(--border)",
         background: "#FFFFFF",
-        overflow: "hidden",
+        overflowX: "auto",
       }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
+        <table className="min-w-[640px]" style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
           <thead>
             <tr style={{ background: "#FAFAF9", borderBottom: "1px solid var(--border)" }}>
               {["Product", "Category", "Price", "Added", ""].map((h, i) => (
@@ -121,6 +121,7 @@ function TableRow({ product, isOdd, onEdit, onDelete }: {
 
   return (
     <tr
+      className="group"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -212,14 +213,10 @@ function TableRow({ product, isOdd, onEdit, onDelete }: {
 
       {/* Actions */}
       <td style={{ padding: "12px 18px", textAlign: "right" }}>
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          gap: "6px",
-          opacity: hovered ? 1 : 0,
-          transition: "opacity 0.15s",
-        }}>
+        <div
+          className="flex items-center justify-end gap-1.5 opacity-100 pointer-events-auto lg:opacity-0 lg:group-hover:opacity-100 lg:pointer-events-none lg:group-hover:pointer-events-auto transition-opacity duration-150"
+          style={{}}
+        >
           <button
             onClick={onEdit}
             style={{

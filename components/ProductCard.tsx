@@ -33,6 +33,7 @@ export default function ProductCard({ product }: { product: Product }) {
   return (
     <>
       <div
+        className="group"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
@@ -99,16 +100,15 @@ export default function ProductCard({ product }: { product: Product }) {
           </div>
 
           {/* Action buttons — appear on hover */}
-          <div style={{
-            position: "absolute",
-            top: "10px",
-            right: "10px",
-            display: "flex",
-            gap: "6px",
-            opacity: hovered ? 1 : 0,
-            transition: "opacity 0.2s",
-            pointerEvents: hovered ? "all" : "none",
-          }}>
+          <div
+            className="flex opacity-100 pointer-events-auto lg:opacity-0 lg:group-hover:opacity-100 lg:pointer-events-none lg:group-hover:pointer-events-auto transition-opacity duration-200"
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              gap: "6px",
+            }}
+          >
             <button
               onClick={(e) => { e.stopPropagation(); setEditOpen(true); }}
               title="Edit"

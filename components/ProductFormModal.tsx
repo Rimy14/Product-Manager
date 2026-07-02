@@ -114,9 +114,8 @@ export default function ProductFormModal({
           style={{ background: "rgba(0,0,0,0.35)", backdropFilter: "blur(4px)" }}
         />
         <Dialog.Content
-          className="dialog-content fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50"
+          className="dialog-content fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[calc(100%-32px)] sm:w-full"
           style={{
-            width: "100%",
             maxWidth: "520px",
             maxHeight: "92vh",
             overflowY: "auto",
@@ -199,7 +198,7 @@ export default function ProductFormModal({
             </div>
 
             {/* Price + Category row */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px", marginBottom: "18px" }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[14px] mb-[18px]">
               {/* Price */}
               <div>
                 <label style={{ display: "block", fontSize: "13px", fontWeight: 500, color: "var(--text-2)", marginBottom: "6px" }}>
