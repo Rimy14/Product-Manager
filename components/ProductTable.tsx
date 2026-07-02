@@ -56,7 +56,7 @@ export default function ProductTable() {
         <table className="min-w-[640px]" style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
           <thead>
             <tr style={{ background: "#FAFAF9", borderBottom: "1px solid var(--border)" }}>
-              {["Product", "Category", "Price", "Added", ""].map((h, i) => (
+              {["Product", "Category", "Price", ""].map((h, i) => (
                 <th
                   key={i}
                   style={{
@@ -202,14 +202,7 @@ function TableRow({ product, isOdd, onEdit, onDelete }: {
         </span>
       </td>
 
-      {/* Date */}
-      <td style={{ padding: "12px 18px" }}>
-        <span style={{ fontSize: "12px", color: "#A8A29E", whiteSpace: "nowrap" }}>
-          {new Date(product.createdAt).toLocaleDateString("en-US", {
-            month: "short", day: "numeric", year: "numeric",
-          })}
-        </span>
-      </td>
+
 
       {/* Actions */}
       <td style={{ padding: "12px 18px", textAlign: "right" }}>

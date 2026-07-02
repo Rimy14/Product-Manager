@@ -187,7 +187,6 @@ export default function ProductCard({ product }: { product: Product }) {
           <div style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
           }}>
             <span style={{
               fontSize: "18px",
@@ -196,11 +195,6 @@ export default function ProductCard({ product }: { product: Product }) {
               letterSpacing: "-0.02em",
             }}>
               ${product.price.toFixed(2)}
-            </span>
-            <span style={{ fontSize: "11px", color: "#A8A29E" }}>
-              {new Date(product.createdAt).toLocaleDateString("en-US", {
-                month: "short", day: "numeric", year: "numeric",
-              })}
             </span>
           </div>
         </div>
