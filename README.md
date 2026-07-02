@@ -132,8 +132,4 @@ We employ Radix UI Dialog primitives to handle focus trapping, DOM accessibility
 3. **Optimized Lamp Mockup Asset** — Upgraded the Smart Desk Lamp placeholder image URL to a reliable, clean mockup source.
 4. **Dark Mode-First Identity** — A default custom dark theme with ambient borders and cards was chosen to deliver a high-quality modern visual appeal.
 
----
 
-## 📄 License
-
-MIT — Created for assessment purposes.
