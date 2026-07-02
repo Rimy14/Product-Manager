@@ -134,12 +134,16 @@ export const seedSampleProducts = (): void => {
     },
   ];
 
-  const now = new Date().toISOString();
-  const products: Product[] = samples.map((s) => ({
-    ...s,
-    id: crypto.randomUUID(),
-    createdAt: now,
-    updatedAt: now,
-  }));
+  const products: Product[] = samples.map((s, index) => {
+    const date = new Date();
+    date.setDate(date.getDate() - (index * 2));
+    const timestamp = date.toISOString();
+    return {
+      ...s,
+      id: crypto.randomUUID(),
+      createdAt: timestamp,
+      updatedAt: timestamp,
+    };
+  });
   saveProducts(products);
 };
