@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { X, AlertCircle, ChevronDown } from "lucide-react";
+import { X, AlertCircle, ChevronDown, Upload } from "lucide-react";
 import { useProducts } from "@/context/ProductContext";
 import { Product, ProductFormData } from "@/types/product";
 import toast from "react-hot-toast";
@@ -26,9 +26,49 @@ function validate(f: ProductFormData): FormErrors {
   if (!f.description.trim()) e.description = "Description is required";
   else if (f.description.trim().length < 10) e.description = "At least 10 characters required";
   else if (f.description.trim().length > 500) e.description = "Max 500 characters";
-  if (f.image && !/^https?:\/\/.+\..+/.test(f.image)) e.image = "Enter a valid URL";
+  if (f.image && !/^https?:\/\/.+\..+/.test(f.image) && !/^data:image\/.+;base64,/.test(f.image)) {
+    e.image = "Enter a valid URL";
+  }
   return e;
 }
+
+const compressImage = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target?.result as string;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 600;
+        const MAX_HEIGHT = 450;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx?.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", 0.7));
+      };
+      img.onerror = (err) => reject(err);
+    };
+    reader.onerror = (err) => reject(err);
+  });
+};
 
 export default function ProductFormModal({
   open, onOpenChange, editProduct,
@@ -43,13 +83,37 @@ export default function ProductFormModal({
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [imgErr, setImgErr] = useState(false);
 
+  const [isCompressing, setIsCompressing] = useState(false);
+
+  const fileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file");
+      return;
+    }
+    setIsCompressing(true);
+    try {
+      const compressed = await compressImage(file);
+      setForm((prev) => ({ ...prev, image: compressed }));
+      setImgErr(false);
+      setErrors((prev) => ({ ...prev, image: undefined }));
+      toast.success("Image selected & optimized");
+    } catch (err) {
+      toast.error("Failed to process image");
+      console.error(err);
+    } finally {
+      setIsCompressing(false);
+    }
+  };
+
   useEffect(() => {
     if (open) {
       setForm(editProduct
         ? { name: editProduct.name, price: editProduct.price, description: editProduct.description, image: editProduct.image, category: editProduct.category }
         : empty
       );
-      setErrors({}); setTouched({}); setImgErr(false);
+      setErrors({}); setTouched({}); setImgErr(false); setIsCompressing(false);
     }
   }, [open, editProduct]);
 
@@ -307,22 +371,60 @@ export default function ProductFormModal({
               )}
             </div>
 
-            {/* Image URL */}
+            {/* Image URL or File Upload */}
             <div style={{ marginBottom: "24px" }}>
               <label style={{ display: "block", fontSize: "13px", fontWeight: 500, color: "var(--text-2)", marginBottom: "6px" }}>
-                Image URL{" "}
+                Image URL or Photo{" "}
                 <span style={{ fontSize: "12px", fontWeight: 400, color: "var(--text-3)" }}>(optional)</span>
               </label>
-              <input
-                type="url"
-                name="image"
-                value={form.image}
-                onChange={(e) => { change(e); setImgErr(false); }}
-                onBlur={blur}
-                onFocus={focus}
-                placeholder="https://example.com/product.jpg"
-                style={{ ...inputBase, ...inputError("image") }}
-              />
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <input
+                  type="url"
+                  name="image"
+                  value={form.image.startsWith("data:") ? "" : form.image}
+                  onChange={(e) => { change(e); setImgErr(false); }}
+                  onBlur={blur}
+                  onFocus={focus}
+                  placeholder="Paste image URL (https://…)"
+                  style={{ ...inputBase, ...inputError("image") }}
+                />
+
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+                  <span style={{ fontSize: "11px", color: "var(--text-3)", fontWeight: 500 }}>— OR —</span>
+                </div>
+
+                <label
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "8px",
+                    padding: "10px 14px",
+                    borderRadius: "10px",
+                    border: "1.5px dashed var(--border)",
+                    background: "#FAFAF9",
+                    color: "var(--text-2)",
+                    fontSize: "13px",
+                    fontWeight: 500,
+                    cursor: "pointer",
+                    transition: "all 0.15s",
+                    textAlign: "center",
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--text-2)"; e.currentTarget.style.background = "#F5F4F2"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.background = "#FAFAF9"; }}
+                >
+                  <Upload size={14} />
+                  {isCompressing ? "Processing photo..." : "Upload from files"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={fileChange}
+                    style={{ display: "none" }}
+                  />
+                </label>
+              </div>
+
               {errors.image && touched.image && (
                 <p style={{ display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", color: "#EF4444", marginTop: "5px" }}>
                   <AlertCircle size={11} /> {errors.image}

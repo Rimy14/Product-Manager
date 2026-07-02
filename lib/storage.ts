@@ -6,7 +6,28 @@ const STORAGE_KEY = "product_manager_products";
 export const getProducts = (): Product[] => {
   if (typeof window === "undefined") return [];
   const data = localStorage.getItem(STORAGE_KEY);
-  return data ? JSON.parse(data) : [];
+  if (!data) return [];
+  const products: Product[] = JSON.parse(data);
+
+  // Migrate old desk lamp sample image if present
+  const oldLampImg = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop";
+  const newLampImg = "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400&h=300&fit=crop";
+
+  let migrated = false;
+  const updated = products.map((p) => {
+    if (p.image === oldLampImg) {
+      migrated = true;
+      return { ...p, image: newLampImg };
+    }
+    return p;
+  });
+
+  if (migrated) {
+    saveProducts(updated);
+    return updated;
+  }
+
+  return products;
 };
 
 export const saveProducts = (products: Product[]): void => {
@@ -99,7 +120,7 @@ export const seedSampleProducts = (): void => {
       description:
         "Touch-sensitive dimming, built-in USB charging port, and adjustable color temperature for eye care.",
       image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400&h=300&fit=crop",
       category: "Home",
     },
     {
